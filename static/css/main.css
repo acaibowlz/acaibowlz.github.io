@@ -213,7 +213,55 @@ p, ul, ol { margin: 0 0 1.25rem; }
 
 .body :is(ul, ol) { padding-left: 1.4rem; }
 .body li { margin-bottom: 0.4rem; }
-.body img { max-width: 100%; height: auto; border-radius: var(--radius); display: block; }
+.body img { max-width: 100%; height: auto; border-radius: var(--radius); display: block; cursor: zoom-in; }
+
+.lightbox {
+  max-width: 92vw;
+  max-height: 92vh;
+  padding: 0;
+  border: none;
+  background: none;
+  overflow: hidden;
+  outline: none; /* showModal() focuses the dialog itself; nothing to keyboard-navigate inside */
+}
+.lightbox img {
+  display: block;
+  max-width: 92vw;
+  max-height: 92vh;
+  width: auto;
+  height: auto;
+  border-radius: var(--radius);
+  cursor: zoom-out;
+}
+.lightbox::backdrop { background: rgb(0 0 0 / 0.75); }
+
+/* @starting-style gives the opening frame something to animate from; the
+   closing frame is held open by the .closing class until transitionend. */
+.lightbox,
+.lightbox::backdrop {
+  opacity: 0;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+.lightbox { transform: scale(0.96); }
+.lightbox[open],
+.lightbox[open]::backdrop { opacity: 1; }
+.lightbox[open] { transform: scale(1); }
+
+@starting-style {
+  .lightbox[open],
+  .lightbox[open]::backdrop { opacity: 0; }
+  .lightbox[open] { transform: scale(0.96); }
+}
+
+.lightbox[open].closing,
+.lightbox[open].closing::backdrop { opacity: 0; }
+.lightbox[open].closing { transform: scale(0.96); }
+
+@media (prefers-reduced-motion: reduce) {
+  .lightbox,
+  .lightbox::backdrop { transition-duration: 0.01ms; }
+}
+
 .body a { text-decoration: underline; text-underline-offset: 0.2em; text-decoration-thickness: 1px; }
 
 .body blockquote {
