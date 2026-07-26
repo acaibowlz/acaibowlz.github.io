@@ -1,5 +1,5 @@
-title = "Demo Site"
-base_url = "https://example.com"
+title = "acaibowlz"
+base_url = "https://acaibowlz.github.io"
 
 # Free-form custom values. Unlike every other table, keys here are NOT
 # validated — put anything a template needs and read it as `site.params.<key>`
@@ -18,11 +18,11 @@ recent = { blog = 5, project = 3 }
 # URL and keeps this order. The home template renders it as an author card via
 # `site.profile`. Avatar is a path under static/.
 [profile]
-name = "Demo User"
-bio = "Placeholder bio — a line or two about who you are. Swap in your own."
+name = "Hank"
+bio = "I like to build things."
 avatar = "/img/avatar.svg"
-email = "you@example.com"
-socials = { github = "https://github.com/you", mastodon = "https://mastodon.social/@you" }
+email = "hankthedev@gmail.com"
+socials = { github = "https://github.com/acaibowlz" }
 
 # Navigation bar. `labels` and `links` are paired by position and must be the
 # same length. Set `enabled = false` to hide the nav without deleting entries.
