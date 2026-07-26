@@ -1,0 +1,81 @@
+title = "Demo Site"
+base_url = "https://example.com"
+
+# Free-form custom values. Unlike every other table, keys here are NOT
+# validated — put anything a template needs and read it as `site.params.<key>`
+# (e.g. `site.params.accent`). Everywhere else, an unknown key is a build error.
+[params]
+accent = "teal"
+
+[home]
+template = "home.html"
+# Recent-items sections: content-type = count. The template reads each as
+# `recent.<type>` (e.g. recent.blog), so add/remove types freely.
+recent = { blog = 5, project = 3 }
+
+# Site author/owner details, exposed to every template as `site.profile`
+# (name, bio, avatar, email, socials). `socials` maps a platform key to its
+# URL and keeps this order. The home template renders it as an author card via
+# `site.profile`. Avatar is a path under static/.
+[profile]
+name = "Demo User"
+bio = "Placeholder bio — a line or two about who you are. Swap in your own."
+avatar = "/img/avatar.svg"
+email = "you@example.com"
+socials = { github = "https://github.com/you", mastodon = "https://mastodon.social/@you" }
+
+# Navigation bar. `labels` and `links` are paired by position and must be the
+# same length. Set `enabled = false` to hide the nav without deleting entries.
+[nav]
+enabled = true
+labels = ["Blog", "Projects", "Tags", "About"]
+links  = ["/blog/", "/projects/", "/tags/", "/about/"]
+
+[content_types.blog]
+template = "blog.html"
+index_template = "blog.index.html"
+permalink = "/blog/{slug}/"
+index_permalink = "/blog/"
+paginate = 10
+sort_by = "date"
+order = "desc"
+# Publish an RSS feed of recent posts at /blog/feed.xml (needs base_url). The
+# <head> in base.html advertises it via `site.feeds`. Omit or set false for none.
+feed = true
+
+[content_types.project]
+template = "project.html"
+index_template = "project.index.html"
+permalink = "/projects/{slug}/"
+index_permalink = "/projects/"
+sort_by = "title"
+order = "asc"
+
+# Standalone pages: no index, no taxonomy. Do NOT add index_template here.
+[content_types.pages]
+template = "page.html"
+permalink = "/{slug}/"
+
+[taxonomies.tags]
+template = "taxonomy.html"
+index_template = "taxonomy.index.html"
+permalink = "/tags/{term}/"
+index_permalink = "/tags/"
+# multiple = true  (default) expects a list in front matter: tags = ["a", "b"].
+# Set multiple = false for single-term taxonomies, e.g. category = "AI".
+# Term ordering, used on BOTH the term index page and the home list below.
+# sort_by is "name" (default) or "count"; order is "asc" (default) or "desc".
+sort_by = "count"
+order = "desc"
+# Surface this taxonomy's terms on the home page, read as `taxonomies.tags`
+# (a list of terms with `name`, `count`, `url`; all terms passed, slice in the
+# template). Omit or set false to keep it off the home page.
+home = true
+
+# How ITEMS are ordered on a term page (e.g. /tags/python/) — a separate axis
+# from the term ordering above. `sort_by` is any front-matter field (like a
+# content type's), `order` is "asc"/"desc". Defaults to date/desc (newest
+# first); this sub-table is optional.
+[taxonomies.tags.items]
+sort_by = "date"
+order = "desc"

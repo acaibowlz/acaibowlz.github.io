@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <div class="panel-grid">
+    <div class="panel-main">
+      <section class="hero">
+        <h1>{{ site.title }}</h1>
+        <p>A placeholder landing page — replace this intro, or make the whole page your own.</p>
+      </section>
+
+      <section class="recent">
+        <h2>Recent posts</h2>
+        <ul class="post-list">
+          {% for item in recent.blog %}
+          <li>
+            <a href="{{ item.url }}">{{ item.title }}</a>
+            {% if item.date %}<time>{{ item.date }}</time>{% endif %}
+            {% if item.description %}<p>{{ item.description }}</p>{% endif %}
+          </li>
+          {% endfor %}
+        </ul>
+      </section>
+
+      <section class="recent">
+        <h2>Projects</h2>
+        <ul class="project-list">
+          {% for item in recent.project %}
+          <li>
+            <a href="{{ item.url }}">{{ item.title }}</a>
+            {% if item.description %}<p>{{ item.description }}</p>{% endif %}
+          </li>
+          {% endfor %}
+        </ul>
+      </section>
+    </div>
+
+    {% if site.profile or taxonomies.tags %}
+    <aside class="panel-aside">
+      <div class="panel-aside-inner">
+      {% if site.profile %}
+      <section class="widget profile-card">
+        {% if site.profile.avatar %}
+        <img class="avatar" src="{{ site.profile.avatar }}" alt="{{ site.profile.name }}" width="72" height="72">
+        {% endif %}
+        {% if site.profile.name %}<h2 class="profile-name">{{ site.profile.name }}</h2>{% endif %}
+        {% if site.profile.bio %}<p class="profile-bio">{{ site.profile.bio }}</p>{% endif %}
+        {% if site.profile.email or site.profile.socials %}
+        <ul class="socials">
+          {% if site.profile.email %}<li><a href="mailto:{{ site.profile.email }}">Email</a></li>{% endif %}
+          {% for name, url in site.profile.socials.items() %}
+          <li><a href="{{ url }}">{{ name }}</a></li>
+          {% endfor %}
+        </ul>
+        {% endif %}
+      </section>
+      {% endif %}
+
+      {% if taxonomies.tags %}
+      <section class="widget">
+        <h2 class="widget-title">Tags</h2>
+        <ul class="tags">
+          {% for term in taxonomies.tags %}
+          <li><a href="{{ term.url }}">{{ term.name }} <span class="tag-count">{{ term.count }}</span></a></li>
+          {% endfor %}
+        </ul>
+      </section>
+      {% endif %}
+      </div>
+    </aside>
+    {% endif %}
+  </div>
+{% endblock %}

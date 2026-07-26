@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block title %}Projects — {{ site.title }}{% endblock %}
+
+{% block content %}
+  <div class="panel-grid">
+    <div class="panel-main">
+      <h1>Projects</h1>
+      <ul class="project-list">
+        {% for item in items %}
+        <li>
+          <a href="{{ item.url }}">{{ item.title }}</a>
+          {% if item.description %}<p>{{ item.description }}</p>{% endif %}
+        </li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+{% endblock %}
