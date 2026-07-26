@@ -5,6 +5,21 @@
   --font-sans: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   --font-mono: ui-monospace, "SF Mono", "JetBrains Mono", Menlo, monospace;
 
+  color-scheme: dark;
+  --bg: #0d1117;
+  --surface: #161b22;
+  --border: #2a313c;
+  --fg: #e6edf3;
+  --muted: #9198a1;
+  --accent: #4493f8;
+  --accent-hover: #6cb0ff;
+
+  --radius: 0.5rem;
+  --radius-sm: 0.35rem;
+}
+
+:root[data-theme="light"] {
+  color-scheme: light;
   --bg: #ffffff;
   --surface: #f6f8fa;
   --border: #e4e7eb;
@@ -12,21 +27,6 @@
   --muted: #656d76;
   --accent: #2563eb;
   --accent-hover: #1d4ed8;
-
-  --radius: 0.5rem;
-  --radius-sm: 0.35rem;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --bg: #0d1117;
-    --surface: #161b22;
-    --border: #2a313c;
-    --fg: #e6edf3;
-    --muted: #9198a1;
-    --accent: #4493f8;
-    --accent-hover: #6cb0ff;
-  }
 }
 
 * { box-sizing: border-box; }
@@ -105,6 +105,27 @@ body.layout-wide { --max-width: var(--width-wide); }
 }
 .site-title:hover { color: var(--accent); }
 
+.theme-toggle {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  padding: 0;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+  color: var(--muted);
+  font-size: 0.95rem;
+  line-height: 1;
+  cursor: pointer;
+}
+.theme-toggle:hover { color: var(--fg); }
+.theme-toggle .icon-moon,
+:root[data-theme="light"] .theme-toggle .icon-sun { display: none; }
+:root[data-theme="light"] .theme-toggle .icon-moon { display: block; }
+
 .site-header nav {
   display: flex;
   gap: 1.25rem;
@@ -114,10 +135,18 @@ body.layout-wide { --max-width: var(--width-wide); }
 .site-header nav a:hover { color: var(--fg); }
 
 @media (min-width: 48rem) {
-  body:has(main > .panel-grid) .site-header nav {
+  /* Panel layout is full-bleed, so the header controls track the aside edge
+     rather than the width-capped container. */
+  body:has(main > .panel-grid) .site-header :is(nav, .theme-toggle) {
     position: absolute;
     inset-block: 0;
     align-items: center;
+  }
+  body:has(main > .panel-grid) .site-header .theme-toggle {
+    margin-block: auto;
+    right: 1.5rem;
+  }
+  body:has(main > .panel-grid) .site-header nav {
     right: calc(var(--panel-width) + 1.5rem);
   }
 }
