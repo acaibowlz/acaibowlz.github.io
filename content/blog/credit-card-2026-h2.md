@@ -1,5 +1,5 @@
 +++
-title = "2026 下半年信用卡操作指南：妥善搭配國泰世華 CUBE、台新 Richart 及永豐 DAWHO"
+title = "2026 下半年信用卡操作指南：完美搭配國泰世華 CUBE、台新 Richart 及永豐 DAWHO"
 date = 2026-07-26
 description = "整理三張信用卡通路與回饋差異，秒懂什麼時候刷哪張卡 💳"
 tags = ["life", "2026"]
