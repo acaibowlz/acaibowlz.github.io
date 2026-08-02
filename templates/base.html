@@ -9,32 +9,11 @@
   {% for feed in site.feeds %}
   <link rel="alternate" type="application/rss+xml" title="{{ site.title }}" href="{{ feed.url }}">
   {% endfor %}
-  <script>
-    (function () {
-      var stored = localStorage.getItem('theme');
-      if (stored) document.documentElement.dataset.theme = stored;
-      document.addEventListener('click', function (e) {
-        if (!e.target.closest('.theme-toggle')) return;
-        var next = document.documentElement.dataset.theme === 'light' ? 'dark' : 'light';
-        document.documentElement.dataset.theme = next;
-        localStorage.setItem('theme', next);
-      });
-    })();
-  </script>
 </head>
 <body class="{% block body_class %}{% endblock %}">
   <header class="site-header">
     <div class="container site-header-inner">
       <a class="site-title" href="/">{{ site.title }}</a>
-      <button type="button" class="theme-toggle" aria-label="Toggle light/dark theme">
-        <svg class="icon-sun" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
-          <circle cx="12" cy="12" r="4"></circle>
-          <path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path>
-        </svg>
-        <svg class="icon-moon" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"></path>
-        </svg>
-      </button>
       {% if site.nav.enabled %}
       <input type="checkbox" id="nav-toggle" class="nav-toggle" aria-label="Toggle navigation menu">
       <label for="nav-toggle" class="nav-burger" aria-hidden="true"><span></span><span></span><span></span></label>

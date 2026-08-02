@@ -1,13 +1,16 @@
 {% extends "base.html" %}
 
 {% block content %}
+  <section class="hero">
+    {% if site.params.get('home_cover') %}
+    <img class="hero-cover" src="{{ site.params.home_cover }}" alt="{{ site.title }}">
+    {% else %}
+    <h1>{{ site.title }}</h1>
+    {% endif %}
+  </section>
+
   <div class="panel-grid">
     <div class="panel-main">
-      <section class="hero">
-        <h1>{{ site.title }}</h1>
-        <!--<p>A placeholder landing page — replace this intro, or make the whole page your own.</p>-->
-      </section>
-
       <section class="recent">
         <h2>Recent posts</h2>
         <ul class="post-list">

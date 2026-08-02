@@ -5,7 +5,7 @@ base_url = "https://acaibowlz.github.io"
 # validated — put anything a template needs and read it as `site.params.<key>`
 # (e.g. `site.params.accent`). Everywhere else, an unknown key is a build error.
 [params]
-accent = "teal"
+home_cover = "/img/cover.jpg"
 
 [home]
 template = "home.html"
