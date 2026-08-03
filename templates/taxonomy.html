@@ -3,19 +3,19 @@
 {% block title %}{{ term.name }} — {{ site.title }}{% endblock %}
 
 {% block content %}
-  <div class="panel-grid">
-    <div class="panel-main">
-      <h1>{{ taxonomy }}: {{ term.name }}</h1>
-      <p>{{ term.count }} item(s).</p>
-      <ul class="post-list">
-        {% for item in items %}
-        <li>
-          <span class="content-type">{{ item.type }}</span>
-          <a href="{{ item.url }}">{{ item.title }}</a>
-          {% if item.date %}<time>{{ item.date }}</time>{% endif %}
-        </li>
-        {% endfor %}
-      </ul>
-    </div>
-  </div>
+  <header class="listing-header">
+    <p class="listing-eyebrow"><a href="/{{ taxonomy }}/">{{ taxonomy }}</a></p>
+    <h1>{{ term.name }}</h1>
+    <p class="listing-meta">{{ term.count }} item{{ "" if term.count == 1 else "s" }}</p>
+  </header>
+  <ul class="post-list">
+    {% for item in items %}
+    <li>
+      <span class="content-type">{{ item.type }}</span>
+      <a href="{{ item.url }}">{{ item.title }}</a>
+      {% if item.date %}<time>{{ item.date }}</time>{% endif %}
+      {% if item.description %}<p>{{ item.description }}</p>{% endif %}
+    </li>
+    {% endfor %}
+  </ul>
 {% endblock %}

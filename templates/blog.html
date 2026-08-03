@@ -17,11 +17,13 @@
 {% endmacro %}
 
 {% block content %}
+  <article class="post">
+    {{ post_header() }}
+  </article>
   <div class="panel-grid">
-    <article class="post panel-main">
-      {{ post_header() }}
+    <div class="post panel-main">
       <div class="body">{{ page.body_html | safe }}</div>
-    </article>
+    </div>
     {% if page.toc %}
     <aside class="panel-aside">
       <div class="panel-aside-inner">

@@ -3,26 +3,24 @@
 {% block title %}Blog — {{ site.title }}{% endblock %}
 
 {% block content %}
-  <div class="panel-grid">
-    <div class="panel-main">
-      <h1>Blog</h1>
-      <ul class="post-list">
-        {% for item in items %}
-        <li>
-          <a href="{{ item.url }}">{{ item.title }}</a>
-          {% if item.date %}<time>{{ item.date }}</time>{% endif %}
-          {% if item.description %}<p>{{ item.description }}</p>{% endif %}
-        </li>
-        {% endfor %}
-      </ul>
+  <header class="listing-header">
+    <h1>Blog</h1>
+  </header>
+  <ul class="post-list">
+    {% for item in items %}
+    <li>
+      <a href="{{ item.url }}">{{ item.title }}</a>
+      {% if item.date %}<time>{{ item.date }}</time>{% endif %}
+      {% if item.description %}<p>{{ item.description }}</p>{% endif %}
+    </li>
+    {% endfor %}
+  </ul>
 
-      {% if page.total_pages > 1 %}
-      <nav class="pagination">
-        {% if page.has_prev %}<a href="{{ page.prev_url }}">&larr; Newer</a>{% endif %}
-        <span>Page {{ page.number }} of {{ page.total_pages }}</span>
-        {% if page.has_next %}<a href="{{ page.next_url }}">Older &rarr;</a>{% endif %}
-      </nav>
-      {% endif %}
-    </div>
-  </div>
+  {% if page.total_pages > 1 %}
+  <nav class="pagination">
+    {% if page.has_prev %}<a href="{{ page.prev_url }}">&larr; Newer</a>{% endif %}
+    <span>Page {{ page.number }} of {{ page.total_pages }}</span>
+    {% if page.has_next %}<a href="{{ page.next_url }}">Older &rarr;</a>{% endif %}
+  </nav>
+  {% endif %}
 {% endblock %}

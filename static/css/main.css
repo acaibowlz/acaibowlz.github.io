@@ -64,8 +64,8 @@ main {
   padding-block: 2rem 3rem;
 }
 
-body.layout-wide { --max-width: var(--width-wide); }
-
+/* every page frames at the wide width; reading columns cap themselves inside it */
+main.container,
 .site-header-inner,
 .site-footer-inner { max-width: var(--width-wide); }
 
@@ -295,8 +295,6 @@ time { color: var(--muted); font-size: 0.85rem; }
 .panel-main > .recent :is(.post-list, .project-list) li { padding-block: 1rem; }
 .panel-main > .recent :is(.post-list, .project-list) li:last-child { padding-bottom: 0; }
 
-main:has(.panel-grid) { max-width: var(--width-wide); }
-
 .panel-grid {
   display: flex;
   align-items: flex-start;
@@ -308,15 +306,16 @@ main:has(.panel-grid) { max-width: var(--width-wide); }
   min-width: 0;
 }
 
-/* keep the reading column the same width whether or not an aside is present */
-.panel-grid:not(:has(.panel-aside)) .panel-main {
-  margin-right: calc(var(--panel-width) + var(--panel-gap));
-}
-
 .panel-aside {
   flex: 0 0 var(--panel-width);
+  align-self: stretch;   /* full-height box, so the sticky inner has room to travel */
 }
-.panel-aside-inner { position: sticky; top: 5rem; }
+.panel-aside-inner {
+  position: sticky;
+  top: 5rem;
+  max-height: calc(100vh - 6rem);
+  overflow-y: auto;
+}
 
 .panel-aside .widget + .widget {
   margin-top: 1.75rem;
@@ -365,10 +364,9 @@ main:has(.panel-grid) { max-width: var(--width-wide); }
 
 @media (max-width: 48rem) {
   .panel-aside { display: none; }
-  .panel-grid:not(:has(.panel-aside)) .panel-main { margin-right: 0; }
 }
 
-.post-list, .project-list, .term-list { list-style: none; padding: 0; margin-block: 0; }
+.post-list, .project-list { list-style: none; padding: 0; margin-block: 0; }
 
 .post-list li, .project-list li {
   padding-block: 1.25rem;
@@ -399,7 +397,57 @@ main:has(.panel-grid) { max-width: var(--width-wide); }
   color: var(--muted);
 }
 
-.term-list li { margin-bottom: 0.5rem; }
+/* centered listings live in their own narrow column, so the composition reads as
+   a deliberate stack rather than content adrift in the wide frame */
+.listing-header,
+.term-grid {
+  max-width: 34rem;
+  margin-inline: auto;
+}
+
+.listing-header { text-align: center; margin-bottom: 2rem; }
+.listing-header h1 { margin: 0; text-transform: capitalize; }
+/* whatever follows a centered header shares its column: items, pagination */
+.listing-header ~ :is(.post-list, .project-list, .pagination) {
+  max-width: var(--max-width);
+  margin-inline: auto;
+}
+.listing-header + .term-grid { margin-top: 2.5rem; }
+.listing-eyebrow {
+  margin: 0 0 0.35rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.listing-eyebrow a { color: var(--muted); }
+.listing-eyebrow a:hover { color: var(--accent); }
+.listing-meta { margin: 0.35rem 0 0; color: var(--muted); font-size: 0.9rem; }
+
+.term-grid {
+  list-style: none;
+  margin-block: 0;   /* not `margin: 0` — the inline auto above centers the column */
+  padding: 0;
+  display: flex;          /* flex, not grid: a short row centers instead of stretching */
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.75rem;
+}
+.term-grid li { flex: 0 0 auto; }   /* tiles size to their label, not a fixed track */
+.term-grid a {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--surface);
+  color: var(--fg);
+  transition: border-color 0.15s ease, color 0.15s ease;
+}
+.term-grid a:hover { border-color: var(--accent); color: var(--accent); }
+.term-grid .term-name { font-weight: 600; font-size: 0.95rem; }
+.term-grid .term-count { color: var(--muted); font-size: 0.8rem; }
 
 .tags { list-style: none; padding: 0; margin: 1rem 0 0; display: flex; flex-wrap: wrap; gap: 0.5rem; }
 .tags li a {
@@ -416,7 +464,14 @@ main:has(.panel-grid) { max-width: var(--width-wide); }
 
 .post header, .project header { margin-bottom: 2rem; }
 .post header h1, .page h1, .project h1 { margin-bottom: 0.5rem; }
+
+/* no aside here, so cap the reading width — left edge stays on the container's,
+   shared with the header, the footer and every other page */
+.page { max-width: var(--max-width); }
+.page > h1 { margin-bottom: 2rem; }
 .body { margin-top: 1.5rem; }
+.panel-main > .body { margin-top: 0; }   /* the header sits above the grid, so no extra gap */
+.body > :first-child { margin-top: 0; }  /* a leading heading keeps its 2.5rem top margin otherwise */
 
 .toc { font-size: 0.9rem; }
 .toc::before {
