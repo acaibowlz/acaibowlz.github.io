@@ -3,8 +3,12 @@
 {% block title %}{{ page.title }} — {{ site.title }}{% endblock %}
 
 {% block content %}
+  {% if page.slug == "about" %}
+  {% include "about.html" %}
+  {% else %}
   <article class="page">
     <h1>{{ page.title }}</h1>
     <div class="body">{{ page.body_html | safe }}</div>
   </article>
+  {% endif %}
 {% endblock %}

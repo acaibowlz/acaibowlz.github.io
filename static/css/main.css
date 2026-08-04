@@ -469,6 +469,29 @@ time { color: var(--muted); font-size: 0.85rem; }
    shared with the header, the footer and every other page */
 .page { max-width: var(--max-width); }
 .page > h1 { margin-bottom: 2rem; }
+
+/* about: photo left, heading and text right, 6:4 */
+.page-about { max-width: none; }
+/* the text is one block centered against the photo — with two grid rows the
+   photo's extra height would open a gap between the heading and the body */
+.about-split {
+  margin-top: 3rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--panel-gap);
+  align-items: center;
+}
+.about-photo {
+  width: 100%;
+  height: auto;
+  border-radius: var(--radius);
+}
+.about-text h1 { margin: 0 0 1rem; }
+.about-text .body { margin-top: 0; }
+
+@media (max-width: 48rem) {
+  .about-split { grid-template-columns: 1fr; }
+}
 .body { margin-top: 1.5rem; }
 .panel-main > .body { margin-top: 0; }   /* the header sits above the grid, so no extra gap */
 .body > :first-child { margin-top: 0; }  /* a leading heading keeps its 2.5rem top margin otherwise */

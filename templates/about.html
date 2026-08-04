@@ -1,0 +1,11 @@
+{# Included by page.html for the About page — the `pages` type has one
+   template, so this is a partial rather than a standalone template. #}
+<article class="page page-about">
+  <div class="about-split">
+    <img class="about-photo" src="/img/me.jpg" alt="{{ site.profile.name }}">
+    <div class="about-text">
+      <h1>{{ page.title }}</h1>
+      <div class="body">{{ page.body_html | safe }}</div>
+    </div>
+  </div>
+</article>
