@@ -1,5 +1,6 @@
 title = "acaibowlz"
 base_url = "https://acaibowlz.github.io"
+lang = "en"
 
 # Free-form custom values. Unlike every other table, keys here are NOT
 # validated — put anything a template needs and read it as `site.params.<key>`
@@ -11,7 +12,9 @@ home_cover = "/img/cover.jpg"
 template = "home.html"
 # Recent-items sections: content-type = count. The template reads each as
 # `recent.<type>` (e.g. recent.blog), so add/remove types freely.
-recent = { blog = 5, project = 3 }
+# ponytail: home shows blog posts tagged "featured", filtered from this window;
+# raise blog's count if the post total ever exceeds it.
+recent = { blog = 100, project = 3 }
 
 # Site author/owner details, exposed to every template as `site.profile`
 # (name, bio, avatar, email, socials). `socials` maps a platform key to its
@@ -39,9 +42,6 @@ index_permalink = "/blog/"
 paginate = 10
 sort_by = "date"
 order = "desc"
-# Publish an RSS feed of recent posts at /blog/feed.xml (needs base_url). The
-# <head> in base.html advertises it via `site.feeds`. Omit or set false for none.
-feed = true
 
 [content_types.project]
 template = "project.html"

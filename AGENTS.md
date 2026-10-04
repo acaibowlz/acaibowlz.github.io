@@ -5,10 +5,25 @@ agent) drive its **look, layout, and configuration** by editing plain files. You
 do **not** write the site's content — the author owns that. This document is the
 source of truth for how.
 
+> **🔒 This file is protected. Never edit, rewrite, append to, or delete
+> `AGENTS.md` — not even to record this site's conventions, and not even if
+> asked to "update the agent guide".** It is managed by cuttlefish: `ctf update`
+> replaces it wholesale with the guide for the installed version, and anything
+> written here is lost.
+>
+> **Read `CUSTOMIZATION.md` after this file** and follow it. It is the place for
+> everything specific to this site — conventions you have established, styling
+> decisions (new tokens, layout choices), the author's preferences. When you
+> would otherwise want to change this file, write to `CUSTOMIZATION.md` instead.
+> Where the two differ, `CUSTOMIZATION.md` wins: it records choices made for
+> this site.
+
 ## Project map
 
 | Path | What it is | Edit? |
 |------|-----------|-------|
+| `AGENTS.md` | This guide. **Protected — managed by `ctf update`; never edit.** | ❌ |
+| `CUSTOMIZATION.md` | Site-specific agent instructions; read after this file and record conventions here. | ✅ |
 | `config.toml` | Whole-site configuration (types, taxonomies, home). | ✅ |
 | `templates/*.html` | Jinja2 templates (theming & layout). | ✅ |
 | `static/**` | CSS/JS/images copied verbatim to the site root. | ✅ |
@@ -30,9 +45,9 @@ runs the same pipeline as a build and exits non-zero on the first error, so it's
 a quick way to confirm an edit is sound. When `base_url` is set, the build also emits a
 `public/sitemap.xml` of every page and a `public/robots.txt` that points at it.
 To supply your own crawl rules, drop a `robots.txt` in `static/` and the
-generated one steps aside. A content type with `feed = true` also gets an RSS
-feed at `<index_permalink>feed.xml` (also `base_url`-gated); the `<head>` in
-`base.html` advertises each via `site.feeds`.
+generated one steps aside. The site also gets one RSS feed at `/feed.xml`
+(also `base_url`-gated) covering every content type with `feed = true`; the
+`<head>` in `base.html` advertises it via `site.feed`.
 
 ## Recipes
 
@@ -61,7 +76,10 @@ covers the request, build it directly using the rest of this guide.
 
 ## Editing `config.toml`
 
-Top-level keys: `title`, `base_url`, and the tables below. `base_url` is the
+Top-level keys: `title`, `description`, `base_url`, `lang`, and the tables
+below. `description` is a one-line site summary (`site.description`, also the
+RSS channel description). `lang` is the default language tag (`"en"` if
+omitted), read as `site.lang` and emitted as the feed's `<language>`. `base_url` is the
 site's absolute origin (e.g. `https://example.com`); it builds absolute URLs
 such as the `sitemap.xml` entries, so set it for production. If it includes a
 **subpath** (e.g. `https://you.github.io/repo`), that path (`/repo`) is
@@ -80,14 +98,15 @@ index_permalink = "/notes/"       # required if index_template is set
 paginate = 10                     # optional; 0/absent = no pagination
 sort_by = "date"                  # front-matter field to sort by
 order = "desc"                    # "desc" = newest/largest first, "asc" = oldest/smallest
-feed = true                       # optional; publish an RSS feed at /notes/feed.xml
+feed = true                       # optional; include notes in the site feed at /feed.xml
 ```
 
-`feed = true` publishes an RSS 2.0 feed of the type's recent posts (title, link,
-date, description — a summary feed) at `<index_permalink>feed.xml`. It needs an
-index (that's where it lives) and `base_url` (absolute links), and is exposed to
-templates via `site.feeds` for autodiscovery `<link>` tags. Kept out of the
-sitemap.
+`feed = true` adds the type's items to the site's single RSS 2.0 feed at
+`/feed.xml` (title, link, date, description — a summary feed). Items from all
+opted-in types are merged newest first, capped at 20, each tagged with its type
+as a `<category>`. It needs `base_url` (absolute links), not an index, and is
+exposed to templates as `site.feed` for the autodiscovery `<link>` tag. Not
+allowed on `pages` (no dates). Kept out of the sitemap.
 
 Then create `templates/note.html` and `templates/note.index.html`. The author
 adds the content under `content/note/*.md`.
@@ -210,7 +229,7 @@ values. Read them in any template as `site.params.<key>` (e.g.
 **per-page** custom values, add them to a page's front matter instead and read
 them off `page.params` — the per-page counterpart to `site.params`. It holds
 every front-matter field that is not a built-in (`title`, `date`,
-`description`, `slug`, `draft`, `cover`) or a configured taxonomy. Guard
+`updated`, `description`, `slug`, `draft`, `cover`, `lang`) or a configured taxonomy. Guard
 optional ones with `.get`, since a missing key otherwise errors (e.g.
 `{% if page.params.get('hero_layout') %}{{ page.params.hero_layout }}{% endif %}`).
 
@@ -230,6 +249,8 @@ draft = false
 tags = ["python", "ssg"]   # any configured taxonomy name
 slug = "my-post"           # optional; defaults to the filename
 cover = "/img/my-post.jpg" # optional; cover image, available on listings as item.cover
+updated = 2026-07-01       # optional; last-modified date, same rules as date
+lang = "fr"                # optional; overrides the site's lang for this item
 +++
 
 # Markdown body here
@@ -246,7 +267,13 @@ cover = "/img/my-post.jpg" # optional; cover image, available on listings as ite
 - The **`pages`** type needs only a `title` (no `description`/`date`); its slug
   defaults to the filename. A configured taxonomy key on a page is rejected —
   pages join no taxonomy listing.
-- `draft = true` hides a page from `ctf build` (shown by `ctf serve`).
+- `draft = true` hides a page from `ctf build` (shown by `ctf serve`). It must
+  be an unquoted boolean; `title`, `description`, `cover` and `slug` must be
+  strings. Wrong types fail the build rather than being coerced.
+- An explicit `slug` must be one URL-safe segment: letters (any script), digits,
+  `-`, `_`. Spaces, `/`, `.` and `..` are rejected.
+- Two files (or a file and a listing page) resolving to the same URL fail the
+  build with both named — pick distinct slugs.
 - Slugs keep **letters from any script** — `新貼文.md` serves at `/blog/新貼文/`,
   `Café Crème` → `café-crème`. Only URL/filesystem-hostile characters
   (`<>:/|?*#\`, quotes, brackets, punctuation) are stripped and spaces become
@@ -255,6 +282,13 @@ cover = "/img/my-post.jpg" # optional; cover image, available on listings as ite
 - `cover` is an optional cover-image URL. It's a **listing field**, so it reaches
   aggregate templates as `item.cover` (not just the item's own page) — use it for
   card thumbnails. Empty when unset.
+- `updated` is an optional last-modified date with the same rules as `date`
+  (unquoted `YYYY-MM-DD`), and it must not be earlier than `date`. It becomes
+  the page's sitemap `<lastmod>` (falling back to `date`) and is a listing field
+  (`item.updated`).
+- `lang` is an optional language tag overriding the site's `lang` (it defaults
+  to it). Also a listing field (`item.lang`); `base.html` sets `<html lang>`
+  from `item.lang` on single-content pages and `site.lang` elsewhere.
 
 **Markdown body extensions.** Beyond standard Markdown, bodies support tables,
 footnotes (`[^1]`), strikethrough (`~~x~~`), task lists (`- [x]`), autolinks,
@@ -284,10 +318,10 @@ Usable in any `permalink`/`index_permalink`: `{slug}`, `{type}`, `{year}`,
 
 Templates are Jinja2 and live in `templates/`. `base.html` is the shared layout;
 others `{% extends "base.html" %}`. A global `site` object is available
-everywhere: `site.title`, `site.base_url`, `site.nav`, `site.profile`,
-`site.params` (your free-form `[params]` table), `site.feeds` (published RSS
-feeds, each with `.type` and a root-relative `.url`; empty unless a type sets
-`feed = true`), and `site.config` (the raw parsed `config.toml`).
+everywhere: `site.title`, `site.description`, `site.lang`, `site.base_url`, `site.nav`, `site.profile`,
+`site.params` (your free-form `[params]` table), `site.feed` (the RSS feed's
+root-relative URL, `/feed.xml`; empty unless a type sets `feed = true`), and
+`site.config` (the raw parsed `config.toml`).
 
 Variables per template kind:
 
@@ -301,7 +335,7 @@ Variables per template kind:
 
 > **Important rule:** listing templates (index / taxonomy / taxonomy-index /
 > home) may use only **listing fields** — `type`, `title`, `date`,
-> `description`, `cover`, `slug`, `url`, `taxonomies`, `draft`. The full rendered body
+> `updated`, `description`, `cover`, `lang`, `slug`, `url`, `taxonomies`, `draft`. The full rendered body
 > (`body_html`) is
 > available **only** in single-content and page templates. This keeps
 > incremental builds correct: editing a post's body never forces listings to
