@@ -3,6 +3,7 @@ title = "2026 下半年信用卡操作指南：完美搭配國泰世華 CUBE、�
 date = 2026-07-26
 description = "整理三張信用卡通路與回饋差異，秒懂什麼時候刷哪張卡 💳"
 tags = ["life", "2026"]
+lang = "zh-Hant"
 +++
 
 ## 前言
@@ -21,7 +22,7 @@ tags = ["life", "2026"]
 
 首先來聊最不需要思考的 DAWHO 卡。DAWHO 卡的強項在於不綁通路，在一定消費額度內可以達到 3.5 %，甚至 5 % 的回饋趴數。
 
-![DAWHO分級](/img/dawho.png)
+![DAWHO分級](/img/credit-card-2026-h2/dawho.png)
 
 _資料來源：[永豐銀行](https://bank.sinopac.com/sinopacBT/personal/credit-card/introduction/bankcard/DAWHO.html)_
 
@@ -31,9 +32,9 @@ _資料來源：[永豐銀行](https://bank.sinopac.com/sinopacBT/personal/credi
 
 換算回饋上限，`大戶` 等級每個月刷 11,428 元以內都享有 3.5 % 回饋，`大戶 Plus` 等級則是 20,000 元以內都享有 5 % 回饋。所以如果沒有閒錢的話，其實可以選擇維持 `大戶` 等級就好，會是 CP 值比較高的選擇～
 
-![大戶等級](/img/dawho-1.png)
+![大戶等級](/img/credit-card-2026-h2/dawho-1.png)
 
-![大戶Plus等級](/img/dawho-2.png)
+![大戶Plus等級](/img/credit-card-2026-h2/dawho-2.png)
 
 _資料來源：[永豐銀行](https://dawho.tw/faq/memberloyalty/)_
 
