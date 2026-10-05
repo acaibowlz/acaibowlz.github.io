@@ -3,7 +3,8 @@
   --width-wide: 64rem;
   --panel-width: 17rem;
   --panel-gap: 2.5rem;
-  --font-sans: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-sans: "Space Grotesk", system-ui, -apple-system, "Segoe UI", Roboto,
+    "PingFang TC", "Noto Sans TC", "Noto Sans CJK TC", "Microsoft JhengHei", sans-serif;
   --font-mono: ui-monospace, "SF Mono", "JetBrains Mono", Menlo, monospace;
 
   color-scheme: dark;
@@ -35,6 +36,15 @@ body {
   flex-direction: column;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
 }
 
 ::selection { background: color-mix(in srgb, var(--accent) 25%, transparent); }
@@ -157,6 +167,7 @@ h1, h2, h3, h4 {
   margin: 2.5rem 0 1rem;
 }
 h1 { font-size: 2.25rem; margin-top: 0; }
+:lang(zh) :is(h1, h2, h3, h4) { letter-spacing: 0; }   /* tight tracking crowds CJK glyphs */
 h2 { font-size: 1.5rem; }
 h3 { font-size: 1.2rem; }
 
@@ -228,6 +239,8 @@ p, ul, ol { margin: 0 0 1.25rem; }
   border-left: 3px solid var(--accent);
   color: var(--muted);
 }
+
+.body mark { background: color-mix(in srgb, var(--accent) 45%, transparent); color: var(--fg); padding-inline: 0.15em; border-radius: var(--radius-sm); -webkit-box-decoration-break: clone; box-decoration-break: clone; }
 
 .body hr { border: none; border-top: 1px solid var(--border); margin: 2.5rem 0; }
 
@@ -356,11 +369,25 @@ time { color: var(--muted); font-size: 0.85rem; }
   padding: 0;
   display: flex;
   flex-wrap: wrap;
-  gap: 0.35rem 1rem;
-  font-size: 0.9rem;
+  gap: 0.5rem;
+  font-size: 0.8rem;
 }
-.socials a { color: var(--muted); }
-.socials a:hover { color: var(--accent); }
+/* icon-only squares, outlined like the .tags buttons */
+.socials a {
+  display: grid;
+  place-items: center;
+  min-width: 2rem;
+  height: 2rem;
+  padding-inline: 0.5rem;   /* a platform with no icon falls back to its name */
+  background: var(--surface);
+  box-shadow: inset 0 0 0 1px var(--border);
+  border-radius: var(--radius);
+  color: var(--muted);
+  font-family: var(--font-mono);
+  transition: box-shadow 0.15s ease, color 0.15s ease;
+}
+.socials a:hover { color: var(--accent); box-shadow: inset 0 0 0 1px var(--accent); }
+.socials svg { width: 1rem; height: 1rem; }
 
 @media (max-width: 48rem) {
   .panel-aside { display: none; }
@@ -471,28 +498,32 @@ time { color: var(--muted); font-size: 0.85rem; }
 .page > h1 { margin-bottom: 2rem; }
 
 .page-about { max-width: none; }
-/* heading and body are one block so the photo's extra height can't open a gap
-   between them — it lands outside the text instead */
 .about-split {
-  margin-top: 3rem;
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr 2fr;
   gap: var(--panel-gap);
-  align-items: center;
+  align-items: start;   /* photo top lines up with the heading */
 }
 .about-photo {
   width: 100%;
   height: auto;
+  aspect-ratio: 1;      /* square crop fills the column better than the 3:2 original */
+  object-fit: cover;
   border-radius: var(--radius);
+  position: sticky;     /* stays beside the text while it scrolls */
+  top: 5rem;
 }
-.about-text h1 { margin: 0 0 1rem; }
 .about-text .body { margin-top: 0; }
+/* pull the first line up by its half-leading so its text tops align with the photo */
+.about-text .body > :first-child { margin-top: calc((1em - 1lh) / 2); }
 
 @media (max-width: 48rem) {
   .about-split { grid-template-columns: 1fr; }
+  .about-photo { position: static; aspect-ratio: auto; }
 }
 .body { margin-top: 1.5rem; }
 .panel-main > .body { margin-top: 0; }   /* post header sits above the grid, not in it */
+.post.panel-main { max-width: var(--max-width); }
 .body > :first-child { margin-top: 0; }  /* a leading heading keeps its 2.5rem top margin otherwise */
 
 .toc { font-size: 0.9rem; }
