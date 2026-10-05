@@ -22,8 +22,8 @@ recent = { blog = 100, project = 3 }
 # `site.profile`. Avatar is a path under static/.
 [profile]
 name = "Hank"
-bio = "I like to build things."
-avatar = "/img/avatar.svg"
+bio = "Python programmer / DevOps engineer / Linux enthusiast"
+avatar = "/img/avatar.png"
 email = "hankthedev@gmail.com"
 socials = { github = "https://github.com/acaibowlz" }
 
