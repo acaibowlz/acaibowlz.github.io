@@ -523,7 +523,7 @@ time { color: var(--muted); font-size: 0.85rem; }
 }
 .body { margin-top: 1.5rem; }
 .panel-main > .body { margin-top: 0; }   /* post header sits above the grid, not in it */
-.post.panel-main { max-width: var(--max-width); }
+.post .panel-main { max-width: var(--max-width); }
 .body > :first-child { margin-top: 0; }  /* a leading heading keeps its 2.5rem top margin otherwise */
 
 .toc { font-size: 0.9rem; }
