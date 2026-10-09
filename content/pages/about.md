@@ -5,7 +5,7 @@ slug = "about"
 
 Hi there, I'm Hank, a Python programmer / DevOps based in Hsinchu, Taiwan.
 
-Currently I'm building AI agents that help wire up components on a no-code platform at TSMC. Some of my work also involves the factory side, where I develop mission allocation and path optimization systems for AMRs (autonomous mobile robots).
+Currently I'm building AI agents that help wire up components on a no-code platform at TSMC. Some of my work also involves the factory side, where I develop mission allocation and path optimization systems for AMRs.
 
 The coding journey started in 2022, when I tried to create a simple ledger chatbot. That's when I discovered how much I enjoy building things with my own hands, to solve my own problems, and eventually other people's.
 
