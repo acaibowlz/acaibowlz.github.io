@@ -6,7 +6,7 @@ lang = "en"
 # validated — put anything a template needs and read it as `site.params.<key>`
 # (e.g. `site.params.accent`). Everywhere else, an unknown key is a build error.
 [params]
-home_cover = "/img/cover.jpg"
+home_cover = "/img/cover.webp"
 
 [home]
 template = "home.html"
@@ -23,7 +23,7 @@ recent = { blog = 100, project = 3 }
 [profile]
 name = "Hank"
 bio = "Python programmer / DevOps engineer / Linux enthusiast"
-avatar = "/img/avatar.png"
+avatar = "/img/avatar.webp"
 email = "hankthedev@gmail.com"
 socials = { github = "https://github.com/acaibowlz" }
 
